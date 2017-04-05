@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Knock me out!</title>
+    <!-- Bootstrap core CSS -->
+    <link href="./styles/bootstrap.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <link href="./styles/custom.css" rel="stylesheet">
+    <!-- jQuery UI styles -->
+    <link rel="stylesheet" type="text/css" media="all"
+          href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.7.2/themes/smoothness/jquery-ui.css"    />
+</head>
+<body>
+<div class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="index.html">Knock me out!</a>
+        </div>
+    </div>
+</div>
+<div class="container body-content">
+
+    <h1>Profiles</h1>
+    <button type="button" data-bind="click: revealForm" class="btn btn-primary" style="margin-bottom:10px;">+ Add new profile</button>
+
+    <div>
+        <div data-bind="visible: shouldShowForm" style="margin-bottom:10px;">
+            <form class="form-inline">
+                <input type="text" data-bind="value: $data.first" class="form-control" placeholder="First Name" style="margin-bottom:5px;" />
+                <input type="text" data-bind="value: $root.last" class="form-control" placeholder="Last Name" style="margin-bottom:5px;" />
+                <input type="text" data-bind="value: $root.email" class="form-control" placeholder="Email" style="margin-bottom:5px;" />
+                <input type="text" data-bind="datepicker: registered" class="form-control" placeholder="Date" style="margin-bottom:5px;" />
+                <input type="text" data-bind="value: $root.range" class="form-control" placeholder="Range (comma separated)" style="margin-bottom:5px;" />
+                <input type="text" data-bind="value: $root.tags" class="form-control" placeholder="Tags (comma separated)" style="margin-bottom:5px;" />
+                <span>
+                Is active:
+                <input type="checkbox" data-bind="checked: $root.isActive" style="margin-bottom:5px;" />
+            </span>
+                <button type="button" class="btn btn-success form-control-static pull-right" style="margin-bottom:5px; margin-left: 5px;"
+                        data-bind="click: $root.addNewProfile">
+                    Submit
+                </button>
+                <button type="button" data-bind="click: closeForm" class="btn btn-danger form-control-static pull-right" style="margin-bottom:5px;">Cancel</button>
+            </form>
+        </div>
+        <div class="table-responsive">
+            <table class="table table-hover table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>First Name</th>
+                    <th>Last Name</th>
+                    <th>Email</th>
+                    <th>Registered</th>
+                    <th>Total of Range</th>
+                    <th>Tags</th>
+                    <th style="border-left: hidden;"></th>
+                </tr>
+                </thead>
+                <tbody data-bind="template: { name: templateToUse, foreach: profiles}"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script id="itemTmpl" type="text/html">
+        <tr data-bind="attr:{title: $parent.customTooltip(name.first, name.last, isActive)}">
+            <td data-bind="text: name.first"></td>
+            <td data-bind="text: name.last"></td>
+            <td data-bind="text: email"></td>
+            <td data-bind="text: registered"></td>
+            <td data-bind="text: $parent.totalRange(range)"></td>
+            <td><select class="form-control" data-bind="options: tags"></select></td>
+            <td class="buttons">
+                <!-- ko if: isActive-->
+                <button title="Edit" class="btn btn-mini glyphicon glyphicon-edit" data-bind="click: $root.editProfile"></button>
+                <button title="Delete" class="btn btn-danger btn-mini glyphicon glyphicon-trash" data-bind="click: $root.deleteProfile"></button>
+                <!-- /ko -->
+            </td>
+        </tr>
+    </script>
+    <script id="editTmpl" type="text/html">
+        <tr>
+            <td><input data-bind="value: name.first" /></td>
+            <td><input data-bind="value: name.last" /></td>
+            <td><input data-bind="value: email" /></td>
+            <td><input data-bind="value: registered, datepicker: registered" /></td>
+            <td><input data-bind="value: range, disable: true" /></td>
+            <td><input data-bind="value: tags, disable: true" /></td>
+            <td class="buttons">
+                <button title="Save" data-bind="click: $root.acceptProfileEdit" class="btn btn-success btn-mini glyphicon glyphicon-ok"></button>
+            </td>
+        </tr>
+    </script>
+    <hr />
+    <footer>
+        <p>&copy; 2017 - Knock me out!</p>
+    </footer>
+</div>
+<!-- jQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<!-- Bootstrap.js -->
+<script src="./scripts/bootstrap.js"></script>
+<!-- jQuery UI -->
+<script src="./scripts/jquery-ui.js"></script>
+<!-- Knockout.js -->
+<script src="./scripts/knockout-3.4.2.js"></script>
+<script src="./scripts/app.js"></script>
+</body>
+</html>
